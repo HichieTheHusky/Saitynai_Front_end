@@ -46,6 +46,13 @@ function ListTypes({ access_token }) {
 
   return (
     <>
+      <div className=".p-3">
+        <h1 className="display-4 text-center first_name">
+          Projects
+        </h1>
+      </div>
+
+
       <table>
         <thead>
         <tr>

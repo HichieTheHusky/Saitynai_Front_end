@@ -140,7 +140,7 @@ a {
 
 .header li a {
     display: block;
-    padding: 20px 20px;
+    padding: 10px 10px;
     border-right: 1px solid #f4f4f4;
     text-decoration: none;
 }
@@ -209,6 +209,7 @@ a {
 
 .header .menu-btn {
     display: none;
+    size: 100px;
 }
 
 .header .menu-btn:checked ~ .menu {
@@ -278,5 +279,18 @@ h1 em {
     font-weight: 600;
 }
 
-/* ------- Helper Styles -------------*/
+/* ------- svg -------------*/
 
+svg {
+        display: inline-block;
+        width: 400px;
+    }
+/* button */
+
+.rbutton {
+    font-size: 40px;
+}
+
+.first_name {
+    padding-top: 320px;
+}
