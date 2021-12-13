@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
+import {Button} from "@mui/material";
 
 function Login({ access_token, loggedIn, dispatch }) {
   const [email, setEmail] = useState("");
@@ -37,6 +38,37 @@ function Login({ access_token, loggedIn, dispatch }) {
       console.log(access_token);
       console.log(result);
       console.log(loggedIn);
+    }
+    postLogin();
+  };
+
+  const handleRegister = (e) => {
+    console.log("handlesubmit");
+    e.preventDefault();
+
+    async function postLogin() {
+      setLoading(true);
+      const response = await fetch("http://127.0.0.1:5000/Testy/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: email,
+          password: password,
+        }),
+      });
+      const result = await response.json();
+      console.log(access_token);
+      console.log(result);
+      console.log(response.status);
+      setLoading(false);
+
+      if (response.status === 500){
+        alert("registered failed")
+      } else {
+        alert("register successfully")
+      }
     }
     postLogin();
   };
@@ -101,6 +133,16 @@ function Login({ access_token, loggedIn, dispatch }) {
               >
                 Login
               </LoadingButton>
+
+              <Button
+                style={{ minWidth: "40vh", minHeight: "7vh" }}
+                onClick={handleRegister}
+                loading={loading}
+                loadingIndicator="Loading..."
+                variant="outlined"
+              >
+                Register
+              </Button>
             </Box>
           </Grid>
         </Container>

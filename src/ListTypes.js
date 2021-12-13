@@ -1,47 +1,52 @@
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ListTypes({ access_token }) {
   const [loadingData, setLoadingData] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({ types: [] });
+  let navigate = useNavigate();
 
   function handleDelete(id) {
     console.log(id);
     async function deleteType() {
-      setLoading(true);
-      const response = await fetch(`http://localhost:98/api/types/${id}`, {
+      const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           'x-access-tokens': `${access_token}`,
         },
       });
-      const result = await response.json();
-      setLoading(false);
-      console.log(result);
+      if (response.status === 204){
+        alert("delete happened")
+      } else {
+        alert("delete failed")
+      }
+      setLoadingData(true);
+      fetchData();
     }
     deleteType();
+
+  }
+
+  async function fetchData() {
+    const repsonse = await fetch("http://127.0.0.1:5000/Testy/api/projects", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'x-access-tokens': `${access_token}`,
+      },
+    });
+    const result = await repsonse.json();
+    setData({ types: result.data })
+    setLoadingData(false);
   }
 
   useEffect(() => {
     setLoadingData(true);
-    console.log(access_token)
-    async function fetchData() {
-      const repsonse = await fetch("http://127.0.0.1:5000/Testy/api/projects", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          'x-access-tokens': `${access_token}`,
-        },
-      });
-      const result = await repsonse.json();
-      setData({ types: result.data });
-      setLoadingData(false);
-    }
     fetchData();
-    console.log(data);
   }, []);
 
   return (
@@ -51,6 +56,13 @@ function ListTypes({ access_token }) {
           Projects
         </h1>
       </div>
+
+        <Link to={`/projects/create `}>
+          <button
+              class="btn btn-primary " className={"center"}>
+            ADD </button>
+        </Link>
+
 
 
       <table>
@@ -82,6 +94,13 @@ function ListTypes({ access_token }) {
                             id={element.id}
                             class="btn btn-primary btn-sm btn-floating mx-2">
                           Open </button>
+                      </Link>
+                      <Link to={`/projects/update/${element.id}`}
+                            state={{ name: element.name, version: element.version}} >
+                        <button
+                            id={element.id}
+                            class="btn btn-primary btn-sm btn-floating mx-2">
+                          Update </button>
                       </Link>
 
                       <button class="btn btn-primary btn-sm btn-floating mx-2"
