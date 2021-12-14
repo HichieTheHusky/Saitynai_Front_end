@@ -38,7 +38,7 @@ function ListTypes({ access_token }) {
     function handleUpdate() {
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests/' + id, {
+            const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests/' + id, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function ListTypes({ access_token }) {
     function handleADD() {
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests', {
+            const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

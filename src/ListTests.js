@@ -13,7 +13,7 @@ function ListTypes({ access_token }) {
         console.log(id);
         async function deleteType() {
             setLoading(true);
-            const response = await fetch("http://127.0.0.1:5000/Testy/api/projects/" + id + "/reqs/" + id2 + '/tests/' + id_t, {
+            const response = await fetch("https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/" + id + "/reqs/" + id2 + '/tests/' + id_t, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,7 +32,7 @@ function ListTypes({ access_token }) {
     }
 
     async function fetchData() {
-        const repsonse = await fetch("http://127.0.0.1:5000/Testy/api/projects/" + id + "/reqs/" + id2 + '/tests', {
+        const repsonse = await fetch("https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/" + id + "/reqs/" + id2 + '/tests', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

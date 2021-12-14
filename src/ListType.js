@@ -27,7 +27,7 @@ function ListTypes({ access_token }) {
         console.log(id)
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + id, {
+            const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/` + id, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -53,7 +53,7 @@ function ListTypes({ access_token }) {
         console.log(id)
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects`, {
+            const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
