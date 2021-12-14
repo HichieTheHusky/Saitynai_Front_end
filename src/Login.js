@@ -1,5 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { LOGIN_SUCCESSFUL } from "./react-redux/actions";
 
@@ -9,6 +8,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {Button} from "@mui/material";
+import {Navigate} from "react-router-dom";
 
 function Login({ access_token, loggedIn, dispatch }) {
   const [email, setEmail] = useState("");
@@ -106,11 +106,8 @@ function Login({ access_token, loggedIn, dispatch }) {
                 required
                 label="E-mail"
                 variant="outlined"
-                required
                 id="email"
-                label="email"
                 type="email"
-                variant="outlined"
                 value={email}
                 onChange={handleChange}
               />

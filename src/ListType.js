@@ -1,13 +1,9 @@
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
-import {Link, useParams} from "react-router-dom";
-import { useLocation } from 'react-router-dom'
+import {useLocation, useParams} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 
 function ListTypes({ access_token }) {
-    const [loadingData, setLoadingData] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({ item: [],  item2: [] });
     const location = useLocation()
     const { id } = useParams();
     const [name, setname] = useState("");
@@ -21,12 +17,11 @@ function ListTypes({ access_token }) {
             setname(location.state.name)
             setversion(location.state.version)
         }
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function handleUpdate() {
         console.log(id)
         async function updateType() {
-            setLoading(true);
             const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/` + id, {
                 method: "PUT",
                 headers: {
@@ -44,7 +39,6 @@ function ListTypes({ access_token }) {
                 alert("update failed")
             }
             navigate('/projects')
-            setLoading(false);
         }
         updateType();
     }
@@ -52,7 +46,6 @@ function ListTypes({ access_token }) {
     function handleADD() {
         console.log(id)
         async function updateType() {
-            setLoading(true);
             const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects`, {
                 method: "POST",
                 headers: {
@@ -70,7 +63,6 @@ function ListTypes({ access_token }) {
                 alert("create failed")
             }
             navigate('/projects')
-            setLoading(false);
         }
         updateType();
     }

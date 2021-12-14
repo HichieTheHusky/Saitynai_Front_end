@@ -1,13 +1,9 @@
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
-import {Link, useParams} from "react-router-dom";
-import { useLocation } from 'react-router-dom'
+import {useLocation, useParams} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 
 function ListTypes({ access_token }) {
-    const [loadingData, setLoadingData] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({ item: [],  item2: [] });
     const location = useLocation()
     const { id } = useParams();
     const [name, setname] = useState("");
@@ -33,11 +29,10 @@ function ListTypes({ access_token }) {
             setdpost(location.state.post)
             setarea(location.state.area)
         }
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function handleUpdate() {
         async function updateType() {
-            setLoading(true);
             const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests/' + id, {
                 method: "PUT",
                 headers: {
@@ -60,14 +55,12 @@ function ListTypes({ access_token }) {
                 alert("update failed")
             }
             navigate(`/projects/${projectID}/requirements/${reqID}/tests`)
-            setLoading(false);
         }
         updateType();
     }
 
     function handleADD() {
         async function updateType() {
-            setLoading(true);
             const response = await fetch(`https://pythonapisaitynas.azurewebsites.net/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests', {
                 method: "POST",
                 headers: {
@@ -89,7 +82,6 @@ function ListTypes({ access_token }) {
                 alert("create failed")
             }
             navigate(`/projects/${projectID}/requirements/${reqID}/tests`)
-            setLoading(false);
         }
         updateType();
     }
@@ -113,6 +105,8 @@ function ListTypes({ access_token }) {
                 break;
             case "area":
                 setarea(e.target.value)
+                break;
+            default:
                 break;
         }
     };

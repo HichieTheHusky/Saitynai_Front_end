@@ -1,13 +1,9 @@
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
-import {Link, useParams} from "react-router-dom";
-import { useLocation } from 'react-router-dom'
+import {useLocation, useParams} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 
 function ListTypes({ access_token }) {
-    const [loadingData, setLoadingData] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState({ item: [],  item2: [] });
     const location = useLocation()
     const { id } = useParams();
     const [name, setname] = useState("");
@@ -27,11 +23,10 @@ function ListTypes({ access_token }) {
             setdescription(location.state.description)
             setmagic(location.state.magicd)
         }
-    }, [])
+    }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
     function handleUpdate() {
         async function updateType() {
-            setLoading(true);
             const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs/' + id, {
                 method: "PUT",
                 headers: {
@@ -52,14 +47,12 @@ function ListTypes({ access_token }) {
                 alert("update failed")
             }
             navigate(`/projects/${projectID}/requirements/`)
-            setLoading(false);
         }
         updateType();
     }
 
     function handleADD() {
         async function updateType() {
-            setLoading(true);
             const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs', {
                 method: "POST",
                 headers: {
@@ -79,7 +72,6 @@ function ListTypes({ access_token }) {
                 alert("create failed")
             }
             navigate(`/projects/${projectID}/requirements/`)
-            setLoading(false);
         }
         updateType();
     }
@@ -97,6 +89,8 @@ function ListTypes({ access_token }) {
                 break;
             case "magic":
                 setmagic(e.target.value)
+                break;
+            default:
                 break;
         }
     };

@@ -4,9 +4,6 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 
 const style = {
     position: "absolute",
@@ -24,8 +21,6 @@ export default function TransitionsModal(props) {
     const [updateInput, setUpdateInput] = useState("");
     const [open, setOpen] = React.useState(false);
     const [loadingUpdate, setLoadingUpdate] = useState(false);
-    const [loadingData, setLoadingData] = useState(false);
-    const [data, setData] = useState({ types: [] });
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setOpen(false);

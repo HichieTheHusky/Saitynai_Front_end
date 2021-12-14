@@ -1,13 +1,11 @@
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 function ListTypes({ access_token }) {
   const [loadingData, setLoadingData] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [data, setData] = useState({ types: [] });
-  let navigate = useNavigate();
 
   function handleDelete(id) {
     console.log(id);
@@ -47,7 +45,7 @@ function ListTypes({ access_token }) {
   useEffect(() => {
     setLoadingData(true);
     fetchData();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

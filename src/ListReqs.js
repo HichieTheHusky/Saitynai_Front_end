@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import {Link, useParams} from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 
 function ListTypes({ access_token }) {
@@ -48,7 +47,7 @@ function ListTypes({ access_token }) {
     useEffect(() => {
         setLoadingData(true);
         fetchData();
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import ListTypes from "./ListTypes";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
@@ -6,7 +5,6 @@ import "./css/App.css";
 import Login from "./Login";
 import ListReqs from "./ListReqs";
 import ListTests from "./ListTests";
-import {Link, useParams} from "react-router-dom";
 import Header from "./Header";
 import ListType from "./ListType";
 import ListReq from "./ListReq";

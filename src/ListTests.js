@@ -57,11 +57,7 @@ function ListTypes({ access_token }) {
         console.log(data.type);
         console.log(data.type);
         // console.log(data.type[0]);
-    }, []);
-
-    const handleCloseUpdate = () => {
-        fetchData();
-    };
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
