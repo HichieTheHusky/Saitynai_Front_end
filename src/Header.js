@@ -5,8 +5,7 @@ import {ReactComponent as ReactLogo} from './img/logo.svg';
 const Header = () => {
     return(
         <header className="header">
-            <ReactLogo />
-
+            <ReactLogo/>
             <input className="menu-btn" type="checkbox" id="menu-btn"/>
             <label className="menu-icon" htmlFor="menu-btn"><span className="navicon"></span></label>
             <ul className="menu">

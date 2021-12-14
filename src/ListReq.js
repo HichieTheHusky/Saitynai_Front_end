@@ -12,22 +12,27 @@ function ListTypes({ access_token }) {
     const { id } = useParams();
     const [name, setname] = useState("");
     const [version, setversion] = useState("");
+    const [description, setdescription] = useState("");
+    const [magicd, setmagic] = useState("");
+    const [projectID, setprojectID] = useState("");
 
     let navigate = useNavigate();
 
 
     useEffect(() => {
         if(location.state != null){
+            setprojectID(location.state.projectID)
             setname(location.state.name)
             setversion(location.state.version)
+            setdescription(location.state.description)
+            setmagic(location.state.magicd)
         }
     }, [])
 
     function handleUpdate() {
-        console.log(id)
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + id, {
+            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs/' + id, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -35,7 +40,10 @@ function ListTypes({ access_token }) {
                 },
                 body: JSON.stringify({
                     name: name,
-                    version: version,
+                    Version: version,
+                    Description: description,
+                    MagicDrawID: magicd,
+                    project: projectID
                 }),
             });
             if (response.status === 200){
@@ -43,17 +51,16 @@ function ListTypes({ access_token }) {
             } else {
                 alert("update failed")
             }
-            navigate('/projects')
+            navigate(`/projects/${projectID}/requirements/`)
             setLoading(false);
         }
         updateType();
     }
 
     function handleADD() {
-        console.log(id)
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects`, {
+            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +68,9 @@ function ListTypes({ access_token }) {
                 },
                 body: JSON.stringify({
                     name: name,
-                    version: version,
+                    Version: version,
+                    Description: description,
+                    MagicDrawID: magicd,
                 }),
             });
             if (response.status === 201){
@@ -69,23 +78,34 @@ function ListTypes({ access_token }) {
             } else {
                 alert("create failed")
             }
-            navigate('/projects')
+            navigate(`/projects/${projectID}/requirements/`)
             setLoading(false);
         }
         updateType();
     }
 
     const handleChange = (e) => {
-        e.target.id === "name"
-            ? setname(e.target.value)
-            : setversion(e.target.value);
+        switch (e.target.id) {
+            case "name":
+                setname(e.target.value)
+                break;
+            case "version":
+                setversion(e.target.value)
+                break;
+            case "description":
+                setdescription(e.target.value)
+                break;
+            case "magic":
+                setmagic(e.target.value)
+                break;
+        }
     };
 
     return (
         <>
             <div className=".p-3">
                 <h1 className="display-4 text-center first_name">
-                    Project form
+                    Requirement form
                 </h1>
             </div>
             <div className={"form"}>
@@ -97,7 +117,15 @@ function ListTypes({ access_token }) {
                     <label htmlFor="exampleInputPassword1">Version</label>
                     <textarea id='version' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.version} />
                 </div>
-                {location.state === null ? (
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">Description</label>
+                    <textarea id='description' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.description} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">MagicDrawID</label>
+                    <textarea id='magic' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.magicd} />
+                </div>
+                {location.state.function === "add" ? (
                     <button onClick={handleADD} className="btn btn-primary">Submit</button>
                 ) : (
                     <button onClick={handleUpdate} className="btn btn-primary">Submit</button>

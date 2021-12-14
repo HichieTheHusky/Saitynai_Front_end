@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 import { useState, useEffect } from "react";
 import {Link, useParams} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Modal from "./Modal";
 
 function ListTypes({ access_token }) {
     const [loadingData, setLoadingData] = useState(false);
@@ -8,44 +10,44 @@ function ListTypes({ access_token }) {
     const [data, setData] = useState({ reqs: [], type: []});
     const { id } = useParams();
 
-    function handleDelete(id) {
+    function handleDelete(did) {
         console.log(id);
         async function deleteType() {
             setLoading(true);
-            const response = await fetch(`http://localhost:98/api/types/${id}`, {
+            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/${id}/reqs/${did}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     'x-access-tokens': `${access_token}`,
                 },
             });
-            const result = await response.json();
-            setLoading(false);
-            console.log(result);
+            if (response.status === 204){
+                alert("delete happened")
+            } else {
+                alert("delete failed")
+            }
+            setLoadingData(true);
+            fetchData();
         }
         deleteType();
+    }
+    async function fetchData() {
+        const repsonse = await fetch("http://127.0.0.1:5000/Testy/api/projects/" + id + "/reqs", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                'x-access-tokens': `${access_token}`,
+            },
+        });
+        const result = await repsonse.json();
+        setData({ reqs: result.data,
+            type: result.reference});
+        setLoadingData(false);
     }
 
     useEffect(() => {
         setLoadingData(true);
-        console.log(access_token)
-        console.log(id)
-        async function fetchData() {
-            const repsonse = await fetch("http://127.0.0.1:5000/Testy/api/projects/" + id + "/reqs", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    'x-access-tokens': `${access_token}`,
-                },
-            });
-            const result = await repsonse.json();
-            setData({ reqs: result.data,
-                            type: result.reference});
-            setLoadingData(false);
-        }
         fetchData();
-        console.log(data.reqs);
-        console.log(data.type);
     }, []);
 
     return (
@@ -55,6 +57,13 @@ function ListTypes({ access_token }) {
                     Project
                 </h1>
             </div>
+
+            <Link to={`/requirements/create`}
+                  state={{ projectID:data.type.id, function: "add"}} >>
+                <button
+                    className="center btn btn-primary">
+                    ADD </button>
+            </Link>
 
             <table>
                 <thead>
@@ -113,7 +122,7 @@ function ListTypes({ access_token }) {
                                         {element.Version}
                                     </td>
                                     <td>
-                                        {element.approval = true ? "Approved" : "Not approved"}
+                                        {element.approval === true ? "Approved" : "Not approved"}
                                     </td>
                                     <td>
                                         <Link to={`/projects/${id}/requirements/${element.id}/tests`}>
@@ -123,11 +132,21 @@ function ListTypes({ access_token }) {
                                                 Open </button>
                                         </Link>
 
+                                        <Link to={`/requirements/update/${element.id}`}
+                                              state={{ projectID:data.type.id, name: element.name, version: element.Version, description: element.Description, magicd: element.MagicDrawID}} >
+                                            <button
+                                                id={element.id}
+                                                class="btn btn-primary btn-sm btn-floating mx-2">
+                                                Update </button>
+                                        </Link>
+
                                         <button class="btn btn-primary btn-sm btn-floating mx-2"
                                                 gugugaga={element.id}
                                                 onClick={() => handleDelete(element.id)}>
-                                            {loading ? `Deleting...` : `Delete ${element.name}`}
+                                            {loading ? `Deleting...` : `Delete`}
                                         </button>
+
+                                        <Modal type="req" id={element.id} id2={data.type.id} token={access_token} fetchData={fetchData}  />
                                     </td>
                                 </>
                             </tr>

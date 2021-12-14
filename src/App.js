@@ -9,13 +9,14 @@ import ListTests from "./ListTests";
 import {Link, useParams} from "react-router-dom";
 import Header from "./Header";
 import ListType from "./ListType";
+import ListReq from "./ListReq";
+import ListTest from "./ListTest";
 
 function App({ apiUrl, access_token, loggedIn, dispatch }) {
   return (
     <>
       <Header/>
         <body>
-
         </body>
       <div className="App">
         <Routes>
@@ -37,6 +38,10 @@ function App({ apiUrl, access_token, loggedIn, dispatch }) {
           <Route path="/projects" element={<ListTypes />} />
           <Route path="/projects/update/:id" element={<ListType />} />
           <Route path="/projects/create" element={<ListType />} />
+          <Route path="/requirements/create" element={<ListReq />} />
+          <Route path="/requirements/update/:id" element={<ListReq />} />
+          <Route path="/test/create" element={<ListTest />} />
+          <Route path="/test/update/:id" element={<ListTest />} />
           <Route path="/projects/:id/requirements" element={<ListReqs />} />
           <Route path="/projects/:id/requirements/:id2/tests" element={<ListTests />} />
         </Routes>

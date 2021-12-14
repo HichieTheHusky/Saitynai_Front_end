@@ -12,22 +12,33 @@ function ListTypes({ access_token }) {
     const { id } = useParams();
     const [name, setname] = useState("");
     const [version, setversion] = useState("");
+    const [description, setdescription] = useState("");
+    const [pre, setdpre] = useState("");
+    const [post, setdpost] = useState("");
+    const [area, setarea] = useState("");
+    const [projectID, setprojectID] = useState("");
+    const [reqID, setreqID] = useState("");
 
     let navigate = useNavigate();
 
 
     useEffect(() => {
         if(location.state != null){
+            setprojectID(location.state.projectID)
+            setreqID(location.state.reqID)
             setname(location.state.name)
             setversion(location.state.version)
+            setdescription(location.state.description)
+            setdpre(location.state.pre)
+            setdpost(location.state.post)
+            setarea(location.state.area)
         }
     }, [])
 
     function handleUpdate() {
-        console.log(id)
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + id, {
+            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests/' + id, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -35,7 +46,12 @@ function ListTypes({ access_token }) {
                 },
                 body: JSON.stringify({
                     name: name,
-                    version: version,
+                    Version: version,
+                    Description: description,
+                    pre: pre,
+                    post: post,
+                    area: area,
+                    req: reqID
                 }),
             });
             if (response.status === 200){
@@ -43,17 +59,16 @@ function ListTypes({ access_token }) {
             } else {
                 alert("update failed")
             }
-            navigate('/projects')
+            navigate(`/projects/${projectID}/requirements/${reqID}/tests`)
             setLoading(false);
         }
         updateType();
     }
 
     function handleADD() {
-        console.log(id)
         async function updateType() {
             setLoading(true);
-            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects`, {
+            const response = await fetch(`http://127.0.0.1:5000/Testy/api/projects/` + projectID + '/reqs/' + reqID + '/tests', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +76,11 @@ function ListTypes({ access_token }) {
                 },
                 body: JSON.stringify({
                     name: name,
-                    version: version,
+                    Version: version,
+                    Description: description,
+                    pre: pre,
+                    post: post,
+                    area: area
                 }),
             });
             if (response.status === 201){
@@ -69,23 +88,40 @@ function ListTypes({ access_token }) {
             } else {
                 alert("create failed")
             }
-            navigate('/projects')
+            navigate(`/projects/${projectID}/requirements/${reqID}/tests`)
             setLoading(false);
         }
         updateType();
     }
 
     const handleChange = (e) => {
-        e.target.id === "name"
-            ? setname(e.target.value)
-            : setversion(e.target.value);
+        switch (e.target.id) {
+            case "name":
+                setname(e.target.value)
+                break;
+            case "version":
+                setversion(e.target.value)
+                break;
+            case "description":
+                setdescription(e.target.value)
+                break;
+            case "pre":
+                setdpre(e.target.value)
+                break;
+            case "post":
+                setdpost(e.target.value)
+                break;
+            case "area":
+                setarea(e.target.value)
+                break;
+        }
     };
 
     return (
         <>
             <div className=".p-3">
                 <h1 className="display-4 text-center first_name">
-                    Project form
+                    Requirement form
                 </h1>
             </div>
             <div className={"form"}>
@@ -97,7 +133,23 @@ function ListTypes({ access_token }) {
                     <label htmlFor="exampleInputPassword1">Version</label>
                     <textarea id='version' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.version} />
                 </div>
-                {location.state === null ? (
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">Description</label>
+                    <textarea id='description' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.description} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">pre</label>
+                    <textarea id='pre' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.pre} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">post</label>
+                    <textarea id='post' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.post} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">area</label>
+                    <textarea id='area' onChange={handleChange}  className="form-control" required defaultValue={location.state === null ? '' : location.state.area} />
+                </div>
+                {location.state.function === "add" ? (
                     <button onClick={handleADD} className="btn btn-primary">Submit</button>
                 ) : (
                     <button onClick={handleUpdate} className="btn btn-primary">Submit</button>

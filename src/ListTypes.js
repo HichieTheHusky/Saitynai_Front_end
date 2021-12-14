@@ -59,7 +59,7 @@ function ListTypes({ access_token }) {
 
         <Link to={`/projects/create `}>
           <button
-              class="btn btn-primary " className={"center"}>
+              className="center btn btn-primary">
             ADD </button>
         </Link>
 
@@ -106,7 +106,7 @@ function ListTypes({ access_token }) {
                       <button class="btn btn-primary btn-sm btn-floating mx-2"
                           gugugaga={element.id}
                           onClick={() => handleDelete(element.id)}>
-                        {loading ? `Deleting...` : `Delete ${element.name}`}
+                        {loading ? `Deleting...` : `Delete`}
                       </button>
                     </td>
                   </>
